@@ -1,9 +1,12 @@
 package com.shellrean.app0003.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Category extends Auditable{
@@ -13,7 +16,11 @@ public class Category extends Auditable{
     private Long id;
     
     private String name;
-    private String desc;
+
+    private String description;
+
+    @OneToMany(mappedBy = "category")
+    private List<Book> books;
 
     public Long getId() {
         return id;
@@ -27,10 +34,10 @@ public class Category extends Auditable{
     public void setName(String name) {
         this.name = name;
     }
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
     }
 }

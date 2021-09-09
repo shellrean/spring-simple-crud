@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Book extends Auditable{
@@ -16,7 +18,13 @@ public class Book extends Auditable{
     private String author;
     private Integer pageTotal;
     private Integer publisYear;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
     
     public Long getId() {

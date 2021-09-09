@@ -1,6 +1,6 @@
 package com.shellrean.app0003.dto;
 
-public class CategoryRequestData {
+public class CategoryData {
     private Long id;
     
     private String name;

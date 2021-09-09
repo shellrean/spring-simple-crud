@@ -1,12 +1,10 @@
 package com.shellrean.app0003.controller;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.shellrean.app0003.dto.CategoryRequestData;
-import com.shellrean.app0003.dto.CategoryResponseData;
+import com.shellrean.app0003.dto.CategoryData;
 import com.shellrean.app0003.entity.Category;
 import com.shellrean.app0003.repository.CategoryRepository;
 
@@ -34,20 +32,20 @@ public class CategoryController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseData>> index() {
+    public ResponseEntity<List<CategoryData>> index() {
         List<Category> categories = categoryRepository.findAll();
-        List<CategoryResponseData> result  = categories.stream()
-                                                        .map(x -> modelMapper.map(x, CategoryResponseData.class))
+        List<CategoryData> result  = categories.stream()
+                                                        .map(x -> modelMapper.map(x, CategoryData.class))
                                                         .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseData> store(@RequestBody CategoryRequestData categoryRequestData) {
+    public ResponseEntity<CategoryData> store(@RequestBody CategoryData categoryRequestData) {
         try {
             Category category = modelMapper.map(categoryRequestData, Category.class);
-            CategoryResponseData result = modelMapper.map(categoryRepository.save(category), CategoryResponseData.class);
+            CategoryData result = modelMapper.map(categoryRepository.save(category), CategoryData.class);
 
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (RuntimeException e) {
@@ -56,14 +54,14 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<CategoryResponseData> show(@PathVariable Long id) {
+    public ResponseEntity<CategoryData> show(@PathVariable Long id) {
         try {
             Optional<Category> category = categoryRepository.findById(id);
             if (!category.isPresent()) {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
 
-            CategoryResponseData result = modelMapper.map(category.get(), CategoryResponseData.class);
+            CategoryData result = modelMapper.map(category.get(), CategoryData.class);
             return ResponseEntity.ok(result);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(null, HttpStatus. INTERNAL_SERVER_ERROR);
@@ -71,7 +69,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<CategoryResponseData> update(@RequestBody CategoryRequestData categoryRequestData) {
+    public ResponseEntity<CategoryData> update(@RequestBody CategoryData categoryRequestData) {
         try {
             Optional<Category> categoryCheck = categoryRepository.findById(categoryRequestData.getId());
             if (!categoryCheck.isPresent()) {
@@ -79,7 +77,7 @@ public class CategoryController {
             }
 
             Category category = modelMapper.map(categoryRequestData, Category.class);
-            CategoryResponseData result = modelMapper.map(categoryRepository.save(category), CategoryResponseData.class);
+            CategoryData result = modelMapper.map(categoryRepository.save(category), CategoryData.class);
 
             return ResponseEntity.ok(result);
         } catch (RuntimeException e) {
